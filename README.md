@@ -10,6 +10,10 @@ Upload a reference video → AI analyzes its shot structure, composition, and ed
 [![Docker](https://img.shields.io/badge/deploy-docker%20compose-blue)](#quick-start)
 [![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey)](#quick-start)
 
+## Demo
+
+https://github.com/lalkh/clipwise/raw/main/assets/demo.mp4
+
 > **⚠️ Best results require single-shot materials.**
 > The matcher assigns **one material per template shot**, so it works far better when each uploaded clip is a single, self-contained shot.
 > - **Good input**: 30 short clips, each one continuous take of one subject/scene
