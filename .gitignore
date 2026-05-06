@@ -1,0 +1,70 @@
+# ─── User data (runtime directories — keep folders, drop content) ───────────
+uploads/*
+!uploads/.gitkeep
+outputs/*
+!outputs/.gitkeep
+frames/*
+!frames/.gitkeep
+drafts/*
+!drafts/.gitkeep
+
+# ─── Secrets & local config ─────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+*.oauth_token
+
+# ─── Docker Compose overrides ───────────────────────────────────────────────
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# ─── Python ─────────────────────────────────────────────────────────────────
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ─── Node (just in case — not usually used) ─────────────────────────────────
+node_modules/
+npm-debug.log*
+
+# ─── OS noise ───────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ─── Editors / IDEs ─────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.iml
+
+# ─── Temporary files ────────────────────────────────────────────────────────
+/tmp/
+*.tmp
+*.log
+*.bak
+
+# ─── Misc personal docs / media ─────────────────────────────────────────────
+*.pptx
+*.docx
+*.xlsx

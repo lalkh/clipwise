@@ -1,0 +1,41 @@
+# Keep the image small and free of user data / secrets.
+uploads/
+outputs/
+frames/
+drafts/
+
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+.git/
+.gitignore
+.github/
+
+.env
+.env.*
+!.env.example
+
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+
+# Keep README.md / README.zh-CN.md inside the image — useful when poking
+# around — but drop the other markdown so we don't bake contributing guides
+# into production.
+*.md
+!README.md
+!README.zh-CN.md
+
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# Logs and editor state
+*.log
+*.tmp
+.idea/
+.vscode/

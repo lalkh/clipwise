@@ -1,0 +1,45 @@
+# docker compose file for ai-video-editor
+#
+# Quick start:
+#   cp .env.example .env && edit .env     (or let deploy.sh auto-detect)
+#   docker compose up -d --build
+#
+# The JianYing/CapCut draft directory defaults to ./drafts (project-local).
+# If you have JianYing installed, set JIANYING_DRAFT_DIR in .env so
+# generated projects appear directly in the desktop app.
+
+services:
+  ai-edit:
+    build: .
+    image: ai-video-editor:latest
+    container_name: ai-video-editor
+    ports:
+      - "${WEB_PORT:-8000}:8000"
+      - "${MCP_PORT:-9001}:9001"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - WEB_HOST=0.0.0.0
+      - WEB_PORT=8000
+      - DRAFT_OUTPUT_DIR=/app/drafts
+      # DRAFT_HOST_DIR is the host-side path that matches /app/drafts inside
+      # the container. JianYing needs real host paths to resolve media.
+      - DRAFT_HOST_DIR=${JIANYING_DRAFT_DIR:-./drafts}
+      - ARTIST_EFFECT_CACHE=/app/artist_effect_cache
+      - ARTIST_EFFECT_HOST_DIR=${JIANYING_CACHE_DIR:-}
+    volumes:
+      - ./uploads:/app/uploads
+      - ./outputs:/app/outputs
+      - ./frames:/app/frames
+      # Mount JianYing draft folder if provided, else fall back to project-local
+      - ${JIANYING_DRAFT_DIR:-./drafts}:/app/drafts
+      # JianYing effect cache (read-only). Falls back to a no-op path when unset.
+      - ${JIANYING_CACHE_DIR:-./drafts}:/app/artist_effect_cache:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/api/config/status"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
