@@ -1,61 +1,61 @@
-# AI Video Editor
+# AI 视频编辑器
 
-**English** | [简体中文](./README.zh-CN.md)
+[English](./README.en.md) | **简体中文**
 
-> AI-powered video analysis + automated editing for JianYing (剪映) / CapCut, driven by Claude Code.
+> 基于 Claude Code 的 AI 视频拉片 + 自动剪辑工具,直接产出剪映 / CapCut 工程。
 
-Upload a reference video → AI analyzes its shot structure, composition, and editing style. Upload new raw materials → AI matches each shot to the best material and produces a native JianYing/CapCut project file you can immediately open and fine-tune.
+上传参考视频 → AI 分析其分镜结构、构图、剪辑风格 → 上传新素材 → AI 为每个分镜匹配最合适的素材,生成原生剪映 / CapCut 工程文件,可在桌面端直接打开微调。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![Docker](https://img.shields.io/badge/deploy-docker%20compose-blue)](#quick-start)
-[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey)](#quick-start)
+[![Docker](https://img.shields.io/badge/deploy-docker%20compose-blue)](#快速开始)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey)](#快速开始)
 
-## Demo
+## 演示
 
 https://github.com/lalkh/clipwise/raw/main/assets/demo.mp4
 
-> **⚠️ Best results require single-shot materials.**
-> The matcher assigns **one material per template shot**, so it works far better when each uploaded clip is a single, self-contained shot.
-> - **Good input**: 30 short clips, each one continuous take of one subject/scene
-> - **Bad input**: 1 long unedited recording that contains many shots inside it
+> **⚠️ 素材以「单一分镜」为单位时效果最好。**
+> 匹配算法是「**每个模板分镜挑一段素材**」,因此独立短素材的效果远好于一段未剪过的长录像。
+> - **推荐输入**:30 段短素材,每段是一个连续镜头(一个主体 / 一个场景)
+> - **效果较差**:1 段几分钟的长录像,里面包含了很多分镜
 >
-> If you only have long footage, pre-cut it into shot-level clips first (a manual JianYing pass, or `ffmpeg -ss/-t`).
+> 如果你只有长素材,建议先用剪映粗切一遍或用 `ffmpeg -ss/-t` 切成镜头级别的片段再上传。
 
 ---
 
-## Features
+## 功能特性
 
-- **Shot-by-shot analysis** — ffmpeg scene detection + frame-level visual verification; returns per-shot composition, camera movement, lighting, transitions, on-screen text
-- **Style-aware material matching** — Claude reads the analysis markdown, groups your uploads by shot type / camera movement / color, picks the best clip + trim point + transition for every template shot
-- **Native JianYing / CapCut project output** — writes `draft_info.json` directly into the desktop app's draft directory; open in JianYing and continue editing, no import step
-- **Custom JianYing MCP** — rebuilt from scratch with extended capabilities (see below)
-- **Cross-platform** — one-command deploy on macOS and Linux
+- **逐分镜拉片** — ffmpeg 镜头切分 + 帧级视觉确认;输出每段的构图、运镜、光线、转场、字幕信息
+- **风格化素材匹配** — Claude 阅读拉片报告,按照镜头类型 / 运镜 / 色调对你的素材进行分组,为每个模板分镜挑选最合适的片段、起止点和转场
+- **原生剪映 / CapCut 工程** — 直接写入桌面端的草稿目录(`draft_info.json`),打开剪映即可继续编辑,不需要导入步骤
+- **自研剪映 MCP** — 从零实现的 MCP 服务,功能远超社区版(详见下方)
+- **跨平台** — macOS / Linux 一键部署
 
-### JianYing MCP capabilities
+### 剪映 MCP 能力
 
-The built-in MCP server is a custom implementation, not a wrapper around any existing library. Currently supported features:
+内置的 MCP 服务完全自研,非第三方库封装。目前已实现:
 
-| Category | Feature |
-|----------|---------|
-| Timeline | Add video / image / audio to main track or overlay tracks |
-| Text | Auto subtitles, flower text (花字) with effect resolution |
-| Effects | Filters, visual effects, fade in/out, masks |
-| Animation | Keyframe animation support |
-| Audio | Auto vocal separation (背景声分离), audio effects |
-| Enhancement | Auto stabilization (防抖), AI lip sync |
-| Adjustment | Color correction, speed control (constant / curve) |
-| Project | Create / save drafts, transition management |
+| 分类 | 功能 |
+|------|------|
+| 时间线 | 添加视频 / 图片 / 音频到主轨或叠加轨 |
+| 文字 | 自动加字幕、自动花字(支持特效资源解析) |
+| 特效 | 滤镜、视觉特效、淡入淡出、蒙版 |
+| 动画 | 关键帧动画 |
+| 音频 | 自动背景声分离(人声 / 伴奏)、音频特效 |
+| 画面增强 | 自动防抖、AI 对口型 |
+| 调整 | 色彩校正、变速(常速 / 曲线变速) |
+| 工程管理 | 创建 / 保存草稿、转场管理 |
 
 ---
 
-## Quick start
+## 快速开始
 
-### Prerequisites
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) 20.10+ with Compose v2
-- An Anthropic account (for Claude Code; login runs inside the web UI after startup)
-- Optional: JianYing Pro / CapCut desktop app — only needed if you want projects to appear directly in the editor. Without it, projects are saved under `./drafts/`.
+### 准备工作
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) 20.10 以上(自带 Compose v2)
+- 一个 Anthropic 账号(用于登录 Claude Code,启动后在 Web 界面里完成 OAuth 登录)
+- 可选:剪映专业版 / CapCut 桌面端 — 只有当你希望工程直接出现在剪映的草稿列表里才需要;否则工程会保存在 `./drafts/` 下
 
-### Install
+### 安装
 
 ```bash
 git clone https://github.com/lalkh/clipwise.git
@@ -63,138 +63,138 @@ cd clipwise
 ./deploy.sh up
 ```
 
-> **China mainland users**: if the build fails due to network issues, add `--cn` to use Chinese mirrors (Aliyun) for apt / npm / pip:
+> **国内用户**：如果构建时因网络问题失败,加 `--cn` 自动切换为国内镜像源(阿里云):
 > ```bash
 > ./deploy.sh up --cn
-> # or rebuild
+> # 或重新构建
 > ./deploy.sh rebuild --cn
 > ```
 
-First launch builds the image (~3–5 min; installs ffmpeg + Node.js + `@anthropic-ai/claude-code` + Python deps).
+首次启动会构建镜像(约 3–5 分钟,安装 ffmpeg + Node.js + `@anthropic-ai/claude-code` + Python 依赖)。
 
-Open **http://localhost:8000** → click the ⚙ gear → "Log in to Claude" → complete OAuth → start uploading.
+打开 **http://localhost:8000** → 点击 ⚙ 齿轮图标 → "登录 Claude" → 完成 OAuth → 开始使用。
 
-### Common commands
+### 常用命令
 
-| Command | What it does |
-|--------|--------------|
-| `deploy.sh up` | Start (builds on first run) |
-| `… restart` | Restart container without rebuilding |
-| `… rebuild` | Force a clean rebuild (use after code/dep changes) |
-| `… logs` | Tail container logs |
-| `… status` | Show health + port status |
-| `… down` | Stop and remove container |
+| 命令 | 作用 |
+|--------|------|
+| `deploy.sh up` | 启动(首次会自动构建) |
+| `… restart` | 重启容器,不重新构建 |
+| `… rebuild` | 强制重新构建(代码或依赖变动后用) |
+| `… logs` | 查看容器日志 |
+| `… status` | 查看运行状态和端口情况 |
+| `… down` | 停止并移除容器 |
 
 ---
 
-## JianYing / CapCut integration
+## 剪映 / CapCut 集成
 
-When the deploy script finds your JianYing installation, it configures Docker to mount the draft folder directly — generated projects appear inside the desktop app immediately, no copying required.
+部署脚本会自动检测你机器上的剪映安装位置,并把 Docker 直接挂载到对应的草稿目录 — 生成的工程立刻出现在桌面端,不需要复制。
 
-Default draft paths the scripts auto-detect:
+各平台默认草稿目录(脚本会自动尝试):
 
-| OS | Path |
+| 系统 | 路径 |
 |----|------|
 | macOS | `~/Movies/JianyingPro/User Data/Projects/com.lveditor.draft` |
 | Linux | `~/.local/share/JianyingPro/User Data/Projects/com.lveditor.draft` |
 
-If JianYing is not detected, projects are saved under `./drafts/` in the repo and you can open them manually.
+如果检测不到剪映,工程会保存在仓库里的 `./drafts/`,你可以手动打开。
 
-To override, edit `.env`:
+如需自定义路径,编辑 `.env`:
 
 ```dotenv
 JIANYING_DRAFT_DIR=/your/custom/path
 JIANYING_CACHE_DIR=/your/custom/cache/path
 ```
 
-> **macOS file sharing note:** if Docker Desktop reports "mounts denied" on first run, open Docker Desktop → Settings → Resources → File sharing and add `~/Movies/JianyingPro` to the allowed list.
+> **macOS 文件共享提示**:首次启动如果 Docker Desktop 报 "mounts denied",打开 Docker Desktop → Settings → Resources → File sharing,把 `~/Movies/JianyingPro` 加入白名单。
 
 ---
 
-## How to use
+## 使用流程
 
-### 1. Analyze a reference video
+### 1. 拉片(分析参考视频)
 
-1. Go to the **视频拉片** tab
-2. Upload a reference video
-3. Claude runs the `video-analyze` skill:
-   - Two-pass ffmpeg scene detection
-   - 4fps keyframe extraction
-   - Visual verification of every candidate cut
-   - Per-shot composition / camera / lighting / text / transitions analysis
-4. Review the result in card view, table view, or raw markdown
-5. Optional: split / merge / re-analyze individual shots
+1. 进入 **视频拉片** 标签页
+2. 上传参考视频
+3. Claude 会运行 `video-analyze` skill:
+   - 两轮 ffmpeg 镜头切分
+   - 4fps 关键帧抽取
+   - 视觉确认每个候选切点
+   - 输出每个分镜的构图 / 运镜 / 光线 / 字幕 / 转场分析
+4. 在卡片视图、表格视图或原始 Markdown 里查看结果
+5. 可选:对单个分镜做拆分 / 合并 / 重新分析
 
-### 2. Auto-edit with new materials
+### 2. 自动剪辑(智能匹配)
 
-1. Go to the **自动剪辑** tab
-2. Pick a completed analysis as template
-3. Upload your raw materials (videos / images; folders are supported via drag-and-drop)
-4. Optional: add instructions in the prompt box
-5. Click **开始自动剪辑**. Claude runs the `video-edit` skill:
-   - Probes every material's metadata and representative frames
-   - Groups by shot type / camera movement / color profile / stability
-   - Matches shots with 5-dimension weighted scoring (framing 30% / camera 25% / mood 20% / stability 15% / duration 10%)
-   - Picks transitions per the template's edit graph
-   - Writes `draft_info.json` via the CapCut MCP server
-6. Open JianYing → your project is waiting under the template name → fine-tune & export
+1. 进入 **自动剪辑** 标签页
+2. 选一个已完成的拉片作为模板
+3. 上传你的素材(视频 / 图片;支持文件夹拖拽)
+4. 可选:在 prompt 输入框里加一些指令
+5. 点击 **开始自动剪辑**。Claude 会运行 `video-edit` skill:
+   - 探测每个素材的元信息和代表性帧
+   - 按镜头类型 / 运镜 / 色调 / 稳定性做分组
+   - 用 5 维加权打分匹配分镜(构图 30% / 运镜 25% / 情绪 20% / 稳定性 15% / 时长 10%)
+   - 按模板的转场图选转场
+   - 通过 CapCut MCP 服务写入 `draft_info.json`
+6. 打开剪映 → 工程已经出现在草稿列表里(以模板名命名)→ 微调 + 导出
 
 ---
 
-## Architecture
+## 架构
 
 ```
 ┌────────────────┐   ┌──────────────────┐   ┌───────────────┐
-│ Web (FastAPI)  │   │  Claude Code CLI  │   │  CapCut MCP   │
-│   :8000        │──▶│   + skill files  │──▶│   (Flask)     │
+│ Web (FastAPI)  │   │  Claude Code CLI │   │  CapCut MCP   │
+│   :8000        │──▶│   + skill 文件   │──▶│   (Flask)     │
 │                │   │                  │   │   :9001       │
 └────────┬───────┘   └──────────────────┘   └───────┬───────┘
          │                                          │
          ▼                                          ▼
  uploads/ outputs/                            ./drafts/
-  frames/                                     (or your JianYing folder)
+  frames/                                    (或你的剪映草稿目录)
 ```
 
-### Key files
+### 关键文件
 
-| Component | File |
+| 模块 | 文件 |
 |-----------|------|
-| Web server | `app.py` |
-| Claude CLI wrapper | `services/claude_client.py` |
-| Browser OAuth flow | `services/claude_auth.py` |
-| Video analysis pipeline | `services/video_analyzer.py` |
-| Auto-edit pipeline | `services/auto_editor.py` |
+| Web 服务 | `app.py` |
+| Claude CLI 封装 | `services/claude_client.py` |
+| 浏览器 OAuth 流程 | `services/claude_auth.py` |
+| 拉片管线 | `services/video_analyzer.py` |
+| 自动剪辑管线 | `services/auto_editor.py` |
 | CapCut MCP (Flask) | `services/capcut_mcp.py` |
-| Beat detection (librosa) | `services/beat_detector.py` |
-| Analysis skill | `.claude/skills/video-analyze/SKILL.md` |
-| Edit skill | `.claude/skills/video-edit/SKILL.md` |
+| 节拍检测 (librosa) | `services/beat_detector.py` |
+| 拉片 skill | `.claude/skills/video-analyze/SKILL.md` |
+| 剪辑 skill | `.claude/skills/video-edit/SKILL.md` |
 
-### Data flow & privacy
+### 数据流和隐私
 
-- All your videos / frames / reports stay on **your machine** — in `./uploads/`, `./outputs/`, `./frames/`, and `./drafts/`
-- The only outbound traffic is your prompts + extracted keyframes to `api.anthropic.com` via Claude Code
-- No telemetry, no third-party trackers, no material upload to anyone else
-- `.env` is gitignored; your Claude OAuth token lives in a named Docker volume, never on disk in the repo
-
----
-
-## Configuration reference
-
-All settings live in `.env` (created on first run by the deploy script). See `.env.example` for the full list with per-OS templates.
-
-| Variable | Default | Purpose |
-|----------|---------|---------|
-| `WEB_PORT` | `8000` | Host port for the web UI |
-| `MCP_PORT` | `9001` | Host port for the CapCut MCP server |
-| `JIANYING_DRAFT_DIR` | (auto-detected) | Host path to JianYing's draft folder; empty → `./drafts` |
-| `JIANYING_CACHE_DIR` | (auto-detected) | JianYing effect cache (read-only mount for flower-text / filter resolution) |
+- 你的视频 / 帧 / 报告全部留在**本机**(`./uploads/`、`./outputs/`、`./frames/`、`./drafts/`)
+- 唯一的外部流量是你的 prompt + 抽取的关键帧 → `api.anthropic.com`(由 Claude Code 发出)
+- 没有任何遥测、第三方追踪、素材外传
+- `.env` 已 gitignore;Claude OAuth token 存在 Docker 命名卷中,不会落到仓库里
 
 ---
 
-## Local development (without Docker)
+## 配置项
+
+所有配置都在 `.env`(首次运行 deploy 脚本时自动生成)。完整说明见 `.env.example`,里面有各平台的模板。
+
+| 变量 | 默认值 | 用途 |
+|----------|---------|------|
+| `WEB_PORT` | `8000` | Web UI 的宿主机端口 |
+| `MCP_PORT` | `9001` | CapCut MCP 服务的宿主机端口 |
+| `JIANYING_DRAFT_DIR` | (自动检测) | 剪映草稿目录的宿主路径;留空则使用 `./drafts` |
+| `JIANYING_CACHE_DIR` | (自动检测) | 剪映特效缓存目录(只读挂载,用于花字 / 滤镜资源解析) |
+
+---
+
+## 本地开发(不用 Docker)
 
 ```bash
-# Prerequisites: Python 3.10+, ffmpeg, Node.js 20+
+# 准备环境:Python 3.10+、ffmpeg、Node.js 20+
 npm install -g @anthropic-ai/claude-code
 claude login
 
@@ -204,67 +204,67 @@ brew install ffmpeg
 sudo apt-get install ffmpeg
 
 pip install -r requirements.txt
-./start.sh        # launches CapCut MCP (:9001) + web server (:8000)
+./start.sh        # 同时启动 CapCut MCP (:9001) 和 Web 服务 (:8000)
 ```
 
 ---
 
-## FAQ
+## 常见问题
 
-**Q: "Port already in use" on startup**
-A: Another service is bound to 8000 or 9001. Either free the port, or change `WEB_PORT` / `MCP_PORT` in `.env`.
+**Q:启动报 "Port already in use"**
+A:8000 或 9001 端口被其他服务占用了。释放端口,或在 `.env` 里改 `WEB_PORT` / `MCP_PORT`。
 
-**Q: UI shows "Login expired"**
-A: Click the ⚙ gear → Log in to Claude → OAuth. The token is persisted in a Docker volume and reused on container restart.
+**Q:UI 显示 "Login expired"**
+A:点 ⚙ 齿轮 → 重新登录 Claude → OAuth。token 持久化在 Docker 命名卷里,容器重启后会自动复用。
 
-**Q: Analysis / editing feels slow**
-A: Claude inspects every keyframe it sees. A 20-second reference video with ~15 shots is typically 3–5 minutes of wall time; most of it is model inference.
+**Q:拉片 / 剪辑很慢**
+A:Claude 要看每一张关键帧。一段 20 秒、约 15 个分镜的参考视频,通常需要 3–5 分钟,大部分时间花在模型推理上。
 
-**Q: JianYing won't open the generated project**
-A: Check version compatibility. The MCP writes `version=400000` by default (JianYing Pro 4.x); newer major releases may need the version bumped in `services/capcut_mcp.py`.
+**Q:剪映打不开生成的工程**
+A:可能是版本不兼容。MCP 默认写入 `version=400000`(剪映专业版 4.x),新版本可能需要在 `services/capcut_mcp.py` 里调高这个版本号。
 
-**Q: Does this support the international CapCut?**
-A: Yes. Both JianYing and CapCut share the same draft format, and the built-in MCP server handles both.
+**Q:支持国际版 CapCut 吗?**
+A:支持。剪映和 CapCut 共用同一套草稿格式,内置 MCP 服务两者通用。
 
-**Q: Can I run this on a remote server?**
-A: Yes, but JianYing integration assumes the desktop app runs on the same machine. For headless / remote usage:
+**Q:能跑在远程服务器上吗?**
+A:可以,但剪映集成假设桌面端跑在同一台机器上。如果是无头 / 远程使用:
 
-1. Leave `JIANYING_DRAFT_DIR` empty — generated projects land in `./drafts/edit_<job_id>/`
-2. Click **下载剪映工程** in the web UI → get `capcut_<job_id>.zip`
-3. On your editing machine, unzip it → you get a folder named `edit_<job_id>/`
-4. Copy that folder into your JianYing draft directory (the OS-specific paths listed [above](#jianying--capcut-integration))
-5. Open JianYing — the project appears in the draft list
+1. `JIANYING_DRAFT_DIR` 留空 — 工程会保存到 `./drafts/edit_<job_id>/`
+2. 在 Web UI 里点 **下载剪映工程** → 得到 `capcut_<job_id>.zip`
+3. 在剪辑用的本机解压 → 得到一个 `edit_<job_id>/` 文件夹
+4. 把这个文件夹复制到剪映的草稿目录(参见上方[各平台路径表](#剪映--capcut-集成))
+5. 打开剪映 → 工程出现在草稿列表里
 
-If Docker and JianYing run on the same machine, skip all of this; set `JIANYING_DRAFT_DIR` in `.env` and projects show up automatically.
+如果 Docker 和剪映在同一台机器上,无需上面这些步骤;只要在 `.env` 里设好 `JIANYING_DRAFT_DIR`,工程就会自动出现。
 
 ---
 
-## Uninstall
+## 卸载
 
 ```bash
-# Stop and remove containers, volumes, and images
+# 停止并移除容器、卷和镜像
 ./deploy.sh down
 docker rmi clipwise 2>/dev/null
 docker volume rm clipwise_claude-config 2>/dev/null
 
-# Remove the project directory
+# 删除项目目录
 cd .. && rm -rf clipwise
 ```
 
-If you mounted JianYing drafts, generated projects inside the JianYing draft folder are **not** deleted automatically — remove them manually in JianYing or from the [draft directory](#jianying--capcut-integration) if you no longer need them.
+如果你挂载了剪映草稿目录,已生成的工程**不会**被自动删除 — 如不再需要,请在剪映中手动删除,或到[草稿目录](#剪映--capcut-集成)中自行清理。
 
 ---
 
-## Contributing
+## 贡献
 
-Issues and PRs welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md).
+欢迎 issue 和 PR — 详见 [CONTRIBUTING.md](./CONTRIBUTING.md)。
 
 ---
 
-## License
+## 许可证
 
-[MIT](./LICENSE) — free to use, modify, distribute.
+[MIT](./LICENSE) — 可自由使用、修改、分发。
 
-## Credits
+## 致谢
 
-- [Claude Code](https://docs.claude.com/en/docs/claude-code) — the agent CLI powering every AI step
+- [Claude Code](https://docs.claude.com/en/docs/claude-code) — 驱动每一步 AI 流程的 agent CLI
