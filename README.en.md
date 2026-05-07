@@ -2,9 +2,9 @@
 
 **English** | [简体中文](./README.md)
 
-> AI-powered video analysis + automated editing for JianYing (剪映) / CapCut, driven by Claude Code.
+The most tedious part after a shoot: sifting through dozens or hundreds of clips, matching each one to the right shot — the rough cut alone can eat half a day.
 
-Upload a reference video → AI analyzes its shot structure, composition, and editing style. Upload new raw materials → AI matches each shot to the best material and produces a native JianYing/CapCut project file you can immediately open and fine-tune.
+This tool solves exactly that. Give it a reference video, and AI automatically analyzes its shot structure, then quickly selects matching clips from your material library and generates a native JianYing / CapCut project file. What you get is a ready-to-open rough cut — just refine from there, skipping the most painful part of the edit.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Docker](https://img.shields.io/badge/deploy-docker%20compose-blue)](#quick-start)

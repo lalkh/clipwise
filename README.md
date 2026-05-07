@@ -2,9 +2,9 @@
 
 [English](./README.en.md) | **简体中文**
 
-> 基于 Claude Code 的 AI 视频拉片 + 自动剪辑工具,直接产出剪映 / CapCut 工程。
+拍完素材后最头疼的事情：面对几十上百条素材，要一条条筛选、匹配到对应的分镜，光初剪就要花大半天。
 
-上传参考视频 → AI 分析其分镜结构、构图、剪辑风格 → 上传新素材 → AI 为每个分镜匹配最合适的素材,生成原生剪映 / CapCut 工程文件,可在桌面端直接打开微调。
+这个工具解决的就是这个问题 — 给一条参考视频，AI 自动分析它的分镜结构，然后从你的素材库里快速筛选出匹配的片段，直接生成剪映 / CapCut 工程文件。你拿到的是一个可以立刻打开的剪辑初稿，在这个基础上精修就行，省掉最枯燥的初剪环节。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Docker](https://img.shields.io/badge/deploy-docker%20compose-blue)](#快速开始)
