@@ -8,7 +8,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Docker](https://img.shields.io/badge/deploy-docker%20compose-blue)](#快速开始)
-[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey)](#快速开始)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey)](#快速开始)
 
 ## 演示
 
@@ -29,7 +29,7 @@ https://github.com/lalkh/clipwise/raw/main/assets/demo.mp4
 - **风格化素材匹配** — Claude 阅读拉片报告,按照镜头类型 / 运镜 / 色调对你的素材进行分组,为每个模板分镜挑选最合适的片段、起止点和转场
 - **原生剪映 / CapCut 工程** — 直接写入桌面端的草稿目录(`draft_info.json`),打开剪映即可继续编辑,不需要导入步骤
 - **自研剪映 MCP** — 从零实现的 MCP 服务,功能远超社区版(详见下方)
-- **跨平台** — macOS / Windows / Linux 一键部署
+- **跨平台** — macOS / Linux 一键部署
 
 ### 剪映 MCP 能力
 
@@ -60,12 +60,7 @@ https://github.com/lalkh/clipwise/raw/main/assets/demo.mp4
 ```bash
 git clone https://github.com/lalkh/clipwise.git
 cd clipwise
-
-# macOS / Linux
 ./deploy.sh up
-
-# Windows (PowerShell)
-.\deploy.ps1 up
 ```
 
 > **国内用户**：如果构建时因网络问题失败,加 `--cn` 自动切换为国内镜像源(阿里云):
@@ -83,7 +78,7 @@ cd clipwise
 
 | 命令 | 作用 |
 |--------|------|
-| `deploy.sh up` / `deploy.ps1 up` | 启动(首次会自动构建) |
+| `deploy.sh up` | 启动(首次会自动构建) |
 | `… restart` | 重启容器,不重新构建 |
 | `… rebuild` | 强制重新构建(代码或依赖变动后用) |
 | `… logs` | 查看容器日志 |
@@ -101,9 +96,7 @@ cd clipwise
 | 系统 | 路径 |
 |----|------|
 | macOS | `~/Movies/JianyingPro/User Data/Projects/com.lveditor.draft` |
-| Windows | `%LOCALAPPDATA%\JianyingPro\User Data\Projects\com.lveditor.draft` |
 | Linux | `~/.local/share/JianyingPro/User Data/Projects/com.lveditor.draft` |
-| WSL2 | `/mnt/c/Users/<USERNAME>/AppData/Local/JianyingPro/User Data/Projects/com.lveditor.draft` |
 
 如果检测不到剪映,工程会保存在仓库里的 `./drafts/`,你可以手动打开。
 

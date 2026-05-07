@@ -8,7 +8,7 @@ Upload a reference video → AI analyzes its shot structure, composition, and ed
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Docker](https://img.shields.io/badge/deploy-docker%20compose-blue)](#quick-start)
-[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey)](#quick-start)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey)](#quick-start)
 
 ## Demo
 
@@ -29,7 +29,7 @@ https://github.com/lalkh/clipwise/raw/main/assets/demo.mp4
 - **Style-aware material matching** — Claude reads the analysis markdown, groups your uploads by shot type / camera movement / color, picks the best clip + trim point + transition for every template shot
 - **Native JianYing / CapCut project output** — writes `draft_info.json` directly into the desktop app's draft directory; open in JianYing and continue editing, no import step
 - **Custom JianYing MCP** — rebuilt from scratch with extended capabilities (see below)
-- **Cross-platform** — one-command deploy on macOS, Windows, and Linux
+- **Cross-platform** — one-command deploy on macOS and Linux
 
 ### JianYing MCP capabilities
 
@@ -60,12 +60,7 @@ The built-in MCP server is a custom implementation, not a wrapper around any exi
 ```bash
 git clone https://github.com/lalkh/clipwise.git
 cd clipwise
-
-# macOS / Linux
 ./deploy.sh up
-
-# Windows (PowerShell)
-.\deploy.ps1 up
 ```
 
 > **China mainland users**: if the build fails due to network issues, add `--cn` to use Chinese mirrors (Aliyun) for apt / npm / pip:
@@ -83,7 +78,7 @@ Open **http://localhost:8000** → click the ⚙ gear → "Log in to Claude" →
 
 | Command | What it does |
 |--------|--------------|
-| `deploy.sh up` / `deploy.ps1 up` | Start (builds on first run) |
+| `deploy.sh up` | Start (builds on first run) |
 | `… restart` | Restart container without rebuilding |
 | `… rebuild` | Force a clean rebuild (use after code/dep changes) |
 | `… logs` | Tail container logs |
@@ -101,9 +96,7 @@ Default draft paths the scripts auto-detect:
 | OS | Path |
 |----|------|
 | macOS | `~/Movies/JianyingPro/User Data/Projects/com.lveditor.draft` |
-| Windows | `%LOCALAPPDATA%\JianyingPro\User Data\Projects\com.lveditor.draft` |
 | Linux | `~/.local/share/JianyingPro/User Data/Projects/com.lveditor.draft` |
-| WSL2 | `/mnt/c/Users/<USERNAME>/AppData/Local/JianyingPro/User Data/Projects/com.lveditor.draft` |
 
 If JianYing is not detected, projects are saved under `./drafts/` in the repo and you can open them manually.
 
