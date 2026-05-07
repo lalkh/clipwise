@@ -12,7 +12,7 @@ Upload a reference video → AI analyzes its shot structure, composition, and ed
 
 ## Demo
 
-https://github.com/lalkh/clipwise/raw/main/assets/demo.mp4
+[https://github.com/lalkh/clipwise/raw/main/assets/demo.mp4](https://github.com/user-attachments/assets/4b7ca4e1-9bd8-4253-8c0c-a4d753b740db)
 
 > **⚠️ Best results require single-shot materials.**
 > The matcher assigns **one material per template shot**, so it works far better when each uploaded clip is a single, self-contained shot.
