@@ -239,6 +239,22 @@ If Docker and JianYing run on the same machine, skip all of this; set `JIANYING_
 
 ---
 
+## Uninstall
+
+```bash
+# Stop and remove containers, volumes, and images
+./deploy.sh down
+docker rmi clipwise 2>/dev/null
+docker volume rm clipwise_claude-config 2>/dev/null
+
+# Remove the project directory
+cd .. && rm -rf clipwise
+```
+
+If you mounted JianYing drafts, generated projects inside the JianYing draft folder are **not** deleted automatically — remove them manually in JianYing or from the [draft directory](#jianying--capcut-integration) if you no longer need them.
+
+---
+
 ## Contributing
 
 Issues and PRs welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md).
