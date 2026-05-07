@@ -28,12 +28,12 @@ https://github.com/lalkh/clipwise/raw/main/assets/demo.mp4
 - **Shot-by-shot analysis** — ffmpeg scene detection + frame-level visual verification; returns per-shot composition, camera movement, lighting, transitions, on-screen text
 - **Style-aware material matching** — Claude reads the analysis markdown, groups your uploads by shot type / camera movement / color, picks the best clip + trim point + transition for every template shot
 - **Native JianYing / CapCut project output** — writes `draft_info.json` directly into the desktop app's draft directory; open in JianYing and continue editing, no import step
-- **Custom JianYing MCP** — rebuilt from scratch with extended capabilities (see below)
+- **JianYing MCP** — built-in MCP server with rich JianYing operations (see below)
 - **Cross-platform** — one-command deploy on macOS and Linux
 
 ### JianYing MCP capabilities
 
-The built-in MCP server is a custom implementation, not a wrapper around any existing library. Currently supported features:
+The built-in JianYing MCP server currently supports the following features:
 
 | Category | Feature |
 |----------|---------|
