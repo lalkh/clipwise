@@ -28,7 +28,23 @@ https://github.com/lalkh/clipwise/raw/main/assets/demo.mp4
 - **Shot-by-shot analysis** — ffmpeg scene detection + frame-level visual verification; returns per-shot composition, camera movement, lighting, transitions, on-screen text
 - **Style-aware material matching** — Claude reads the analysis markdown, groups your uploads by shot type / camera movement / color, picks the best clip + trim point + transition for every template shot
 - **Native JianYing / CapCut project output** — writes `draft_info.json` directly into the desktop app's draft directory; open in JianYing and continue editing, no import step
+- **Custom JianYing MCP** — rebuilt from scratch with extended capabilities (see below)
 - **Cross-platform** — one-command deploy on macOS, Windows, and Linux
+
+### JianYing MCP capabilities
+
+The built-in MCP server is a custom implementation, not a wrapper around any existing library. Currently supported features:
+
+| Category | Feature |
+|----------|---------|
+| Timeline | Add video / image / audio to main track or overlay tracks |
+| Text | Auto subtitles, flower text (花字) with effect resolution |
+| Effects | Filters, visual effects, fade in/out, masks |
+| Animation | Keyframe animation support |
+| Audio | Auto vocal separation (背景声分离), audio effects |
+| Enhancement | Auto stabilization (防抖), AI lip sync |
+| Adjustment | Color correction, speed control (constant / curve) |
+| Project | Create / save drafts, transition management |
 
 ---
 
@@ -42,8 +58,8 @@ https://github.com/lalkh/clipwise/raw/main/assets/demo.mp4
 ### Install
 
 ```bash
-git clone https://github.com/<your-org>/ai-video-editor.git
-cd ai-video-editor
+git clone https://github.com/lalkh/clipwise.git
+cd clipwise
 
 # macOS / Linux
 ./deploy.sh up
@@ -208,7 +224,7 @@ A: Claude inspects every keyframe it sees. A 20-second reference video with ~15 
 A: Check version compatibility. The MCP writes `version=400000` by default (JianYing Pro 4.x); newer major releases may need the version bumped in `services/capcut_mcp.py`.
 
 **Q: Does this support the international CapCut?**
-A: Yes, via `pyJianYingDraft`. Both JianYing and CapCut share the same draft format.
+A: Yes. Both JianYing and CapCut share the same draft format, and the built-in MCP server handles both.
 
 **Q: Can I run this on a remote server?**
 A: Yes, but JianYing integration assumes the desktop app runs on the same machine. For headless / remote usage:
@@ -235,5 +251,4 @@ Issues and PRs welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Credits
 
-- [pyJianYingDraft](https://github.com/GuanYixuan/pyJianYingDraft) — the excellent library that makes native CapCut/JianYing draft generation possible
 - [Claude Code](https://docs.claude.com/en/docs/claude-code) — the agent CLI powering every AI step
