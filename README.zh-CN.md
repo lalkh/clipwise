@@ -10,6 +10,10 @@
 [![Docker](https://img.shields.io/badge/deploy-docker%20compose-blue)](#快速开始)
 [![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey)](#快速开始)
 
+## 演示
+
+https://github.com/lalkh/clipwise/raw/main/assets/demo.mp4
+
 > **⚠️ 素材以「单一分镜」为单位时效果最好。**
 > 匹配算法是「**每个模板分镜挑一段素材**」,因此独立短素材的效果远好于一段未剪过的长录像。
 > - **推荐输入**:30 段短素材,每段是一个连续镜头(一个主体 / 一个场景)
