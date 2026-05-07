@@ -13,6 +13,10 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 CMD="${1:-up}"
+CN_MIRROR=0
+for arg in "$@"; do
+  if [ "$arg" = "--cn" ]; then CN_MIRROR=1; fi
+done
 
 # ─── OS detection ──────────────────────────────────────────────────────────
 detect_os() {
@@ -159,7 +163,8 @@ case "$CMD" in
     check_port "$web_port"
     check_port "$mcp_port"
     echo "[deploy] starting (first build takes 3–5 minutes)..."
-    docker compose up -d --build
+    docker compose build --build-arg USE_CN_MIRROR="$CN_MIRROR"
+    docker compose up -d
     wait_healthy
     echo ""
     echo "  ➜  Open http://localhost:${web_port}"
@@ -170,7 +175,7 @@ case "$CMD" in
     check_docker
     bootstrap_env
     docker compose down
-    docker compose build --no-cache
+    docker compose build --no-cache --build-arg USE_CN_MIRROR="$CN_MIRROR"
     web_port=$(read_env WEB_PORT 8000)
     mcp_port=$(read_env MCP_PORT 9001)
     check_port "$web_port"

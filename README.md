@@ -68,6 +68,13 @@ cd clipwise
 .\deploy.ps1 up
 ```
 
+> **China mainland users**: if the build fails due to network issues, add `--cn` to use Chinese mirrors (Aliyun) for apt / npm / pip:
+> ```bash
+> ./deploy.sh up --cn
+> # or rebuild
+> ./deploy.sh rebuild --cn
+> ```
+
 First launch builds the image (~3–5 min; installs ffmpeg + Node.js + `@anthropic-ai/claude-code` + Python deps).
 
 Open **http://localhost:8000** → click the ⚙ gear → "Log in to Claude" → complete OAuth → start uploading.

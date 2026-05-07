@@ -1,5 +1,14 @@
 FROM python:3.11-slim
 
+ARG USE_CN_MIRROR=0
+
+# Optional: switch to Chinese mirrors for faster builds in mainland China
+RUN if [ "$USE_CN_MIRROR" = "1" ]; then \
+      sed -i 's|deb.debian.org|mirrors.aliyun.com|g' /etc/apt/sources.list.d/debian.sources 2>/dev/null \
+      || sed -i 's|deb.debian.org|mirrors.aliyun.com|g' /etc/apt/sources.list 2>/dev/null \
+      || true; \
+    fi
+
 # Configure apt to survive flaky proxies / mirror hiccups
 RUN cat > /etc/apt/apt.conf.d/80-retries <<'EOF'
 Acquire::Retries "10";
@@ -31,6 +40,7 @@ RUN curl -fsSL --retry 10 --retry-delay 3 --connect-timeout 30 https://deb.nodes
  && apt-update-retry \
  && (apt-get install -y --no-install-recommends nodejs \
      || apt-get install -y --no-install-recommends --fix-missing nodejs) \
+ && if [ "$USE_CN_MIRROR" = "1" ]; then npm config set registry https://registry.npmmirror.com; fi \
  && npm install -g @anthropic-ai/claude-code \
  && apt-get purge -y gnupg \
  && apt-get autoremove -y \
@@ -41,7 +51,8 @@ ENV PYTHONUNBUFFERED=1
 
 # Python deps — pip retries on its own
 COPY requirements.txt .
-RUN pip install --no-cache-dir --retries 5 -r requirements.txt \
+RUN if [ "$USE_CN_MIRROR" = "1" ]; then pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/; fi \
+ && pip install --no-cache-dir --retries 5 -r requirements.txt \
  && rm -rf /root/.cache
 
 # Non-root user

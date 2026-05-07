@@ -68,6 +68,13 @@ cd clipwise
 .\deploy.ps1 up
 ```
 
+> **国内用户**：如果构建时因网络问题失败,加 `--cn` 自动切换为国内镜像源(阿里云):
+> ```bash
+> ./deploy.sh up --cn
+> # 或重新构建
+> ./deploy.sh rebuild --cn
+> ```
+
 首次启动会构建镜像(约 3–5 分钟,安装 ffmpeg + Node.js + `@anthropic-ai/claude-code` + Python 依赖)。
 
 打开 **http://localhost:8000** → 点击 ⚙ 齿轮图标 → "登录 Claude" → 完成 OAuth → 开始使用。
