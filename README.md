@@ -12,7 +12,9 @@
 
 ## 演示
 
-https://github.com/lalkh/clipwise/raw/main/assets/demo.mp4
+
+https://github.com/user-attachments/assets/4b7ca4e1-9bd8-4253-8c0c-a4d753b740db
+
 
 > **⚠️ 素材以「单一分镜」为单位时效果最好。**
 > 匹配算法是「**每个模板分镜挑一段素材**」,因此独立短素材的效果远好于一段未剪过的长录像。
